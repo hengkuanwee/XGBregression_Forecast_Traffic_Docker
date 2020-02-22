@@ -1,0 +1,21 @@
+#Dockerfile for building of AIAP_XGBoostModel
+
+FROM python:3.7.6
+MAINTAINER Kuan Wee <kuan.wee@hotmail.com>
+
+# check python environment
+RUN python3 --version
+RUN pip3 --version
+
+# set the working directory for containers
+WORKDIR  /usr/src/aiap_xgboost_traffic
+
+# Installing python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy all the files from the project’s root to the working directory
+COPY . .
+
+# Running Python Application
+CMD ["python3", "./mlp/AIAP_MySQL.py"]

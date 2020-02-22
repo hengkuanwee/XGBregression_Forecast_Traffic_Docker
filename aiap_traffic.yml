@@ -1,0 +1,67 @@
+version: "3.3"
+
+services:
+  model:
+    image: hengkuanwee/aiap_mlmodel:7
+    ports:
+      - '80:80'
+    networks:
+      - backend
+    depends_on:
+      - 'db'
+    secrets:
+      - mysql_user
+      - mysql_password
+
+    #For docker-compose deployment
+    restart: on-failure
+    container_name: myapp_aiap_mlmodel
+
+    #For stack deployment  
+    # deploy:
+    #   replicas: 1
+    #   restart_policy:
+    #     condition: on-failure
+
+  db:
+    image: hengkuanwee/aiap_mysql:1
+    environment:
+      MYSQL_DATABASE: 'aiap_traffic'
+      MYSQL_USER_FILE: /run/secrets/mysql_user
+      MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_password
+      MYSQL_HOST: 'db'
+    ports:
+      - '3308:3306'
+    networks:
+      - backend
+    volumes:
+      - db-data:/var/lib/mysql
+    secrets:
+      - mysql_user
+      - mysql_password
+
+
+    #For docker-compose deployment
+    restart: on-failure
+    container_name: myapp_aiap_mysql
+
+    #For stack deployment  
+    # deploy:
+    #   replicas: 1
+    #   restart_policy:
+    #     condition: on-failure
+    #   placement:
+    #     constraints: [node.role == manager]
+      
+networks:
+  backend:
+
+volumes:
+  db-data:
+
+secrets:
+  mysql_user:
+    file: ./mysql_user.txt
+  mysql_password:
+    file: ./mysql_password.txt
