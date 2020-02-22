@@ -19,7 +19,7 @@ The project consists of 2 segments:
 2) XGBoost Regression Model to predict traffic volume
 
 ## Getting Started
-###1) Exploratory Data Analysis
+### 1) Exploratory Data Analysis
 
 File:
 'eda.ipynb'
@@ -31,7 +31,7 @@ Open the file in Jupyter Noteborequirements.txt'
 'mlp/xgbregressor_ml.py'
 'run.sh'ok.
 
-###2) XGBoost Regression Model to predict traffic volume
+### 2) XGBoost Regression Model to predict traffic volume
 
 File:
 'aiap_traffic.sh'
