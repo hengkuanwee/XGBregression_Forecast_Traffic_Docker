@@ -2,14 +2,14 @@
 
 This project is for prediction of westbound 'traffic_volume' with the following attributes:
 
-`holiday`​: US national and regional holidays 
-`temp`​: average temperature in Kelvin (K) 
-`rain_1h`​: rain that occured in the hour (mm) 
-`snow_1h`​: snow that occured in the hour (mm) 
-`clouds_all`​: percentage of cloud cover 
-`weather main`:​ textual description of current weather 
-`weather_description`​: longer textual description of current weather 
-`date_time`:​ hour of the data collected in local time 
+`holiday`​: US national and regional holidays,
+`temp`​: average temperature in Kelvin (K),
+`rain_1h`​: rain that occured in the hour (mm), 
+`snow_1h`​: snow that occured in the hour (mm),
+`clouds_all`​: percentage of cloud cover,
+`weather main`:​ textual description of current weather,
+`weather_description`​: longer textual description of current weather,
+`date_time`:​ hour of the data collected in local time,
 
 Data source: MN Department of Transportation
 
