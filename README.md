@@ -1,66 +1,84 @@
-# XGBoost Regression Model to predict traffic volume
+# MACHINE LEARNING PIPELINE (PREDICT ACTIVE USERS FOR E-SCOOTER RENTAL)
 
-This project is for prediction of westbound 'traffic_volume' with the following attributes:
+This is a python project submission for AI Apprenticeship Programme Technical Assessment.
 
-`holiday`​: US national and regional holidays,
-`temp`​: average temperature in Kelvin (K),
-`rain_1h`​: rain that occured in the hour (mm), 
-`snow_1h`​: snow that occured in the hour (mm),
-`clouds_all`​: percentage of cloud cover,
-`weather main`:​ textual description of current weather,
-`weather_description`​: longer textual description of current weather,
-`date_time`:​ hour of the data collected in local time,
+This project is for the prediction of active users ('guest-users' and 'registered-users') for an e-scooter rental service in a city.
 
-Data source: MN Department of Transportation
+The following features are provided:
 
-# Project segments
-The project consists of 2 segments:
-1) Exploratory Data Analysis 
-2) XGBoost Regression Model to predict traffic volume
+Independent features:
+**Independent Features:** 
+* `date`​: Date in YYYY-MM-DD
+* `hr`​: Hour (0 to 23) 
+* `weather`​: Description of the weather conditions for that hour 
+* `temperature`​: Average temperature for that hour (Fahrenheit)
+* `feels-like-temperature`​: Average feeling temperature for that hour (Fahrenheit)
+* `relative-humidity`:​ Average relative humidity for that hour. Measure of the amount of water in the air (%)
+* `windspeed`​: Average speed of wind for that hour
+* `psi`:​ Pollutant standard index. Measure of pollutants present in the air. (0 to 400)
+ 
+**Target Features:**
+* `guest-users`​: Number of guest users using the rental e-scooters in that hour
+* `registered-users`​: Number of registered users using the rental e-scooters in that hour
 
-# Getting Started
-## 1) Exploratory Data Analysis
+data url: https://aisgaiap.blob.core.windows.net/aiap6-assessment-data/scooter_rental_data.csv
 
-File:
-'eda.ipynb'
+## Table of Content
+1) Overview of the machine learning pipeline
+2) Running of the machine learning pipeline
+3) Configure your own machine learning pipeline!
 
-Created in an interactive notebook in Python. Provides an anaysis of the data provided and its implications. 
+### 1) Overview of the machine learning pipeline
 
-### Running the Exploratory Data Analysis
-Open the file in Jupyter Noteborequirements.txt'
-'mlp/xgbregressor_ml.py'
-'run.sh'ok.
+#### Step a) Data-preprocessing
+After the data is imported, the data is preprocessed based on our findings from exploratory data analysis. (file: eda.ipynb)
 
-## 2) XGBoost Regression Model to predict traffic volume
+#### Step b) Splitting into train and test set
+The data is then split into training set X and test set y. 
 
-File:
-'aiap_traffic.sh'
-'aiap_traffic.yml'
-'mysql_password.txt'
-'mysql_user.txt'
+#### Step c) Encoding categorical features
+After step 1, 'weather' is the only categorical feature remaining. Due to the nature of the feature (i.e. not ordinal and only has a few unique values), one hot encoder was used for the encoding process.
 
-The data and model has been packaged into Docker image and stored onto docker official repo. In order to run the model, ensure that Docker is installed.
+#### Step d) Normalization/Scaling of the data
+MinMaxScaler was used as it preserves the shape of the dataset.
 
-### Running the Machine Learning Model
-Paste the following command on your bash terminal to grant permission to execute the aiap_traffic.sh file
+#### Step e) Training on Machine learning model
+Multiple models were trained using GridSearchCV find the model that scored the best on "r2 - Coefficient of determination".
+
+Supervised Learning Regression Models used:
+'LinearRegression' - Standard OLS 
+'LassoRegression' - OLS with regularization (introduce penalty = absolute of the maginitude of the coefficient)
+'RidgeRegression' - OLS with regularization (introduce penalty = square of the maginitude of the coefficient)
+'XGBRegression' - gradient boosted decision tree (objective function with training loss and regularization)
+
+#### Step f) Results
+The machine learning pipelin will provide you with the following results
+- Model performance table (on the training set)
+Table tabulating each model being trained, its performance based on scoring selected, and the best parameters that returned the scoring.
+
+- Prediction report (on the test set)
+Adj R-squared and Variance between prediction results and test set
+
+- First 30 predictions (on the test set)
+
+### 2) Running of the machine learning pipeline
+
+Machine Learning model created in with Python version 3.6.7/3.6.8 and bash script.
+
+##### Installing Dependencies
+Paste the following command on your bash terminal to download dependencies
 ```
-chmod +x aiap_traffic.sh
+pip install -r requirements.txt
+```
+##### Running the Machine Learning Pipeline
+Paste the following command on your bash terminal to grant permission to execute the 'run.sh' file
+```
+chmod +x run.sh
 ```
 Paste the following command on your bash terminal to run the machine learning programme
 ```
-chmod +x ./aiap_traffic.sh
-```
-Paste the following command on your bash terminal to observe the machine learning model. (ctrl-c to exit)
-```
-docker container logs -f myapp_aiap_mlmodel
+./run.sh
 ```
 
-### Expected Results ()
-The machine learning model will provide you with the following results
-1) Model report
-Accuray and the best parameters from grid_search
-
-2) Prediction report
-Adj R-squared and Variance between prediction results and test set
-
-3) First 30 predictions 
+### 3) Configure your own machine learning pipeline!
+A configuration file (file: ./mlp/config.py) was included to allow anyone to make their own configuration to the pipline. Users can make their own configurations to steps(b-e) mentioned above.
